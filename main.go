@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	fmt.Println("====Advent of Code====")
+	fmt.Println("=======Advent of Code=======")
 	problems.Day1()
 }
