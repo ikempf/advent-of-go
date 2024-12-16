@@ -1,7 +1,7 @@
 package main
 
 import (
-	"advent-of-go/problems"
+	"advent-of-go/pkg/problems"
 	"fmt"
 )
 

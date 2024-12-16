@@ -21,12 +21,12 @@ func Day1() {
 	first, second = readFiles(input, first, second)
 	sort.Ints(first)
 	sort.Ints(second)
-	var delta = computeDelta(first, second)
+	delta := computeDelta(first, second)
 
 	fmt.Println("Day 1 answer: ", delta)
 
 	fmt.Println("===Day 1 part two===")
-	var similarity int = 0
+	similarity := 0
 	counts := groupAndCount(second)
 	similarity = computeSimilarity(first, similarity, counts)
 
@@ -41,6 +41,7 @@ func readFiles(input *os.File, first []int, second []int) ([]int, []int) {
 		first = append(first, parse(parts[0]))
 		second = append(second, parse(parts[1]))
 	}
+
 	return first, second
 }
 
@@ -50,15 +51,16 @@ func parse(value string) int {
 }
 
 func computeDelta(first []int, second []int) int {
-	var delta int = 0
-	for i := 0; i < len(first); i++ {
+	delta := 0
+	for i := range first {
 		delta += int(math.Abs(float64(first[i] - second[i])))
 	}
+
 	return delta
 }
 
 func computeSimilarity(first []int, similarity int, counts map[int]int) int {
-	for i := 0; i < len(first); i++ {
+	for i := range first {
 		similarity += first[i] * counts[first[i]]
 	}
 	return similarity
