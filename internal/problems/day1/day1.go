@@ -1,24 +1,18 @@
-package problems
+package day1
 
 import (
-	"bufio"
+	"advent-of-go/internal/utils/io"
+	"advent-of-go/internal/utils/parse"
 	"fmt"
 	"math"
-	"os"
 	"sort"
-	"strconv"
 	"strings"
 )
 
 func Day1() {
-	input, _ := os.Open("input/day1.txt")
-	defer input.Close()
-
 	fmt.Println("===Day 1 start===")
-	var first []int
-	var second []int
 
-	first, second = readFiles(input, first, second)
+	first, second := readFiles()
 	sort.Ints(first)
 	sort.Ints(second)
 	delta := computeDelta(first, second)
@@ -33,21 +27,20 @@ func Day1() {
 	fmt.Println("Day 1 answer: ", similarity)
 }
 
-func readFiles(input *os.File, first []int, second []int) ([]int, []int) {
-	scanner := bufio.NewScanner(input)
-	for scanner.Scan() {
-		line := scanner.Text()
+func readFiles() ([]int, []int) {
+	var first []int
+	var second []int
+
+	lines := io.ReadFiles("day1.txt")
+
+	for i := range lines {
+		line := lines[i]
 		parts := strings.Split(line, "   ")
-		first = append(first, parse(parts[0]))
-		second = append(second, parse(parts[1]))
+		first = append(first, parse.ParseInt(parts[0]))
+		second = append(second, parse.ParseInt(parts[1]))
 	}
 
 	return first, second
-}
-
-func parse(value string) int {
-	val, _ := strconv.Atoi(value)
-	return val
 }
 
 func computeDelta(first []int, second []int) int {

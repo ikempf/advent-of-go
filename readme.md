@@ -1,6 +1,5 @@
 # Advent-of-code 2024
 
-
 ## Build
 `go build main.go`
 

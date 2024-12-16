@@ -1,11 +1,13 @@
 package main
 
 import (
-	"advent-of-go/pkg/problems"
+	"advent-of-go/internal/problems/day1"
+	"advent-of-go/internal/problems/day2"
 	"fmt"
 )
 
 func main() {
 	fmt.Println("=======Advent of Code=======")
-	problems.Day1()
+	day1.Day1()
+	day2.Day2()
 }
