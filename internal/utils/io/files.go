@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func ReadFiles(name string) []string {
+func ReadFile(name string) []string {
 	input, _ := os.Open("internal/input/" + name)
 	defer input.Close()
 

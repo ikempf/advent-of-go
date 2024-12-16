@@ -12,26 +12,26 @@ import (
 func Day1() {
 	fmt.Println("===Day 1 start===")
 
-	first, second := readFiles()
+	first, second := readLocations()
 	sort.Ints(first)
 	sort.Ints(second)
 	delta := computeDelta(first, second)
 
-	fmt.Println("Day 1 answer: ", delta)
+	fmt.Printf("Day 1 answer, distance: %d\n", delta)
 
 	fmt.Println("===Day 1 part two===")
 	similarity := 0
 	counts := groupAndCount(second)
 	similarity = computeSimilarity(first, similarity, counts)
 
-	fmt.Println("Day 1 answer: ", similarity)
+	fmt.Printf("Day 1 answer, similarity score: %d\n", similarity)
 }
 
-func readFiles() ([]int, []int) {
+func readLocations() ([]int, []int) {
 	var first []int
 	var second []int
 
-	lines := io.ReadFiles("day1.txt")
+	lines := io.ReadFile("day1.txt")
 
 	for i := range lines {
 		line := lines[i]
