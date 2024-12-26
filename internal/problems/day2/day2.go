@@ -73,27 +73,6 @@ func reportIsSafeWithErrorCorrection(report []int) bool {
 	return false
 }
 
-func reportIsSafeWithErrorCorrectionOptimized(report []int) bool {
-	direction := Unknown
-	droppedAnElement := false
-
-	for i := range report[:len(report)-2] {
-		abIsSafe := isSafe(report[i], report[i+1], &direction)
-		if !abIsSafe {
-			if droppedAnElement {
-				return false
-			}
-			droppedAnElement = true
-			acIsSafe := isSafe(report[i], report[i+2], &direction)
-			if !acIsSafe {
-				return acIsSafe
-			}
-		}
-	}
-
-	return true
-}
-
 func isSafe(n int, m int, direction *int) bool {
 	if math.Abs(float64(n-m)) > 3 {
 		return false
