@@ -7,3 +7,5 @@ linters:
     - depguard
     - gci
     - exportloopref
+    - mnd
+    - varnamelen

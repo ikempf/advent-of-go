@@ -1,13 +1,10 @@
 # Advent-of-code 2024
 
-## Build
-`go build main.go`
-
 ## Build and run
-`go run main.go`
+`make run`
 
 ## Format
-`go fmt`
+`make format`
 
 ## Lint
 `brew install golangci-lint`

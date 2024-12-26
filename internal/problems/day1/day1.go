@@ -1,43 +1,38 @@
 package day1
 
 import (
+	"advent-of-go/internal/utils/format"
 	"advent-of-go/internal/utils/io"
 	"advent-of-go/internal/utils/parse"
-	"fmt"
 	"math"
 	"sort"
+	"strconv"
 	"strings"
 )
 
 func Day1() {
-	fmt.Println("===Day 1 start===")
-
 	first, second := readLocations()
 	sort.Ints(first)
 	sort.Ints(second)
 	delta := computeDelta(first, second)
 
-	fmt.Printf("Day 1 answer, distance: %d\n", delta)
-
-	fmt.Println("===Day 1 part two===")
 	similarity := 0
 	counts := groupAndCount(second)
 	similarity = computeSimilarity(first, similarity, counts)
 
-	fmt.Printf("Day 1 answer, similarity score: %d\n", similarity)
+	format.FormatDay(1, strconv.Itoa(delta), strconv.Itoa(similarity))
 }
 
 func readLocations() ([]int, []int) {
-	var first []int
-	var second []int
-
 	lines := io.ReadFile("day1.txt")
+	first := make([]int, len(lines))
+	second := make([]int, len(lines))
 
 	for i := range lines {
 		line := lines[i]
 		parts := strings.Split(line, "   ")
-		first = append(first, parse.ParseInt(parts[0]))
-		second = append(second, parse.ParseInt(parts[1]))
+		first[i] = parse.Int(parts[0])
+		second[i] = parse.Int(parts[1])
 	}
 
 	return first, second

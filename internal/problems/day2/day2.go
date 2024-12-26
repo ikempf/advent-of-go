@@ -1,40 +1,33 @@
 package day2
 
 import (
+	"advent-of-go/internal/utils/format"
 	"advent-of-go/internal/utils/io"
 	"advent-of-go/internal/utils/parse"
 	"fmt"
 	"math"
+	"strconv"
 	"strings"
 )
 
 const (
 	Unknown    int = 0
-	Increasing     = 1
-	Decreasing     = 2
+	Increasing int = 1
+	Decreasing int = 2
 )
 
 func Day2() {
-	fmt.Println("===Day 2 start===")
-
 	reports := readReports()
 	safeCount := countSafeReports(reports, reportIsSafe)
-
-	fmt.Printf("Day 2 answer, number of safe reports: %d\n", safeCount)
-
-	fmt.Println("===Day 2 start part 2===")
-
 	safeCountWithCorrection := countSafeReports(reports, reportIsSafeWithErrorCorrection)
-
-	fmt.Printf("Day 2 answer part 2, number of safe reports: %d\n", safeCountWithCorrection)
-
+	format.FormatDay(2, strconv.Itoa(safeCount), strconv.Itoa(safeCountWithCorrection))
 }
 
 func countSafeReports(reports [][]int, reportIsSafe func([]int) bool) int {
 	safeCount := 0
 	for i := range reports {
 		if reportIsSafe(reports[i]) {
-			safeCount += 1
+			safeCount++
 		}
 	}
 	return safeCount
@@ -48,7 +41,7 @@ func readReports() [][]int {
 		line := lines[i]
 		levels := strings.Split(line, " ")
 		for j := range levels {
-			reports[i] = append(reports[i], parse.ParseInt(levels[j]))
+			reports[i] = append(reports[i], parse.Int(levels[j]))
 		}
 	}
 
@@ -68,14 +61,33 @@ func reportIsSafe(report []int) bool {
 }
 
 func reportIsSafeWithErrorCorrection(report []int) bool {
+	fmt.Println("before", report, reportIsSafe(report))
+	for i := range report {
+		reportCopy := append([]int{}, report...)
+		reportSlice := append(reportCopy[:i], reportCopy[i+1:]...)
+		if reportIsSafe(reportSlice) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func reportIsSafeWithErrorCorrectionOptimized(report []int) bool {
 	direction := Unknown
+	droppedAnElement := false
 
 	for i := range report[:len(report)-2] {
 		abIsSafe := isSafe(report[i], report[i+1], &direction)
-		bcIsSafe := isSafe(report[i+1], report[i+2], &direction)
-		acIsSafe := isSafe(report[i], report[i+2], &direction)
-		if !abIsSafe && !bcIsSafe && !acIsSafe {
-			return false
+		if !abIsSafe {
+			if droppedAnElement {
+				return false
+			}
+			droppedAnElement = true
+			acIsSafe := isSafe(report[i], report[i+2], &direction)
+			if !acIsSafe {
+				return acIsSafe
+			}
 		}
 	}
 
@@ -86,21 +98,22 @@ func isSafe(n int, m int, direction *int) bool {
 	if math.Abs(float64(n-m)) > 3 {
 		return false
 	}
-	if n < m {
+	switch {
+	case n < m:
 		if *direction == Unknown {
 			*direction = Increasing
 		}
 		if *direction == Decreasing {
 			return false
 		}
-	} else if n > m {
+	case n > m:
 		if *direction == Unknown {
 			*direction = Decreasing
 		}
 		if *direction == Increasing {
 			return false
 		}
-	} else {
+	default:
 		return false
 	}
 	return true
